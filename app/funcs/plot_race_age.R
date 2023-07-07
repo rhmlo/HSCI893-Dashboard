@@ -4,7 +4,7 @@ plot_race_age <- function(data, agegroup) {
   
   # manipulate data to add all ages group
   data2 <- 
-    Usable_data %>% 
+    data %>% 
     group_by(bucket_age) %>% 
     summarise(Asian = sum(!is.na(Q138_9)),
               Black = sum(!is.na(Q138_3)),
@@ -43,9 +43,12 @@ plot_race_age <- function(data, agegroup) {
     scale_fill_manual(values = c("All_Ages"="#1d9b77", 
                                  "15-19"="#d96007", 
                                  "20-24"="#7570b4", 
-                                 "25-29" = "#e52b89")) +    
+                                 "25-29" = "#e52b89"),
+                      breaks = c("All_Ages", "15-19", "20-24", "25-29")) +    
     
-    scale_y_continuous(breaks = seq(0, 6000, by = 1000)) +
+    scale_y_continuous(breaks = waiver(),
+                       minor_breaks = waiver(),
+                       n.breaks = 6) +
     coord_flip() +
     labs(y = "Number of Respondents",
          x = NULL,
