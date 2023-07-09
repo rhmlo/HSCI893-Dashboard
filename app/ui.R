@@ -31,16 +31,37 @@ RI_plot <-
 Geo_Sidebar <- 
   sidebarPanel(
     width = 3,
-    tags$b("This page may take a few seconds to load!"),
+    tags$em("This page may take a few seconds to load."),
     br(),
     hr(), 
-    h4("Options")
-  )
+    h4("Options"),
+    # selector for age group
+    selectInput(
+      "select_agegroup_geo",
+      label = tags$b("Select age group"),
+      choices = c("All ages" = "All_Ages",
+                  "15-19 yrs" = "15-19_All",
+                  "20-24 yrs" = "20-24_All",
+                  "25-29 yrs" = "25-29_All"),
+      multiple = FALSE,
+      selected = c("15-19 yrs" = "15-19_All")),
+    # selector for rural, urban, or both
+    radioButtons("urbanrural", 
+                 label = tags$b("Select geography"),
+                 choices = c("Urban" = "urban",
+                             "Rural" = "rural",
+                             "Both" = "Both"),
+                 selected = c("Both" = "Both"))
+    )
 
 ### Geography plot
 Geo_plot <- 
   mainPanel(
-    tmapOutput("geoMap", height = "600px")
+    tmapOutput("geoMap", height = "600px"),
+    hr(),
+    tags$b("Notes about data for this graph:"),
+    tags$ul(
+      tags$li(tags$em("Legend scales"), " - This is an example interactive graph with two options for specificity. More troubleshooting is required to manually specify the legend scales in the mapping function, which curently sometimes include 0 as a separate category. This is probably due to having double options and slicing the data into 4 age groups + 3 geographies = 12 subgroups of data."))
   )
 
 # UI ------------- 
@@ -63,11 +84,11 @@ navbarPage(
                         ),
                    
                    # Urban/Rural
-                   tabPanel("Geography",
-                            br(),
-                            sidebarLayout(Geo_Sidebar, Geo_plot)
-                   )
-               ))),
+               tabPanel("Geography",
+                        br(),
+                        sidebarLayout(Geo_Sidebar, Geo_plot)
+               )
+             ))),
            
   tabPanel(title = "Navbar2",
            "content 2"),

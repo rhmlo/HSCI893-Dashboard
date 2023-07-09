@@ -9,10 +9,9 @@ server <- function(input, output, session) {
              html = TRUE)
   
   output$racial_respondents <- renderPlotly(
-    plot_race_age(Usable_data, agegroup = input$select_agegroup)
-  )
-  
-  output$geoMap <- renderTmap({geo_map(Usable_data)})
-  
+    plot_race_age(Usable_data, agegroup = input$select_agegroup))
+
+  output$geoMap <- renderTmap({
+    geo_map(Usable_data, agegroup = input$select_agegroup_geo, select_urbrural = input$urbanrural)})
   
 }

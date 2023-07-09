@@ -1,6 +1,6 @@
 # interactive map with canadian provinces and counts of respondents
 
-geo_map <- function(data) {
+geo_map <- function(data, agegroup, select_urbrural) {
 
   # base province polygons
   mapfile2 <- 
@@ -25,26 +25,54 @@ geo_map <- function(data) {
     pivot_wider(names_from = c(bucket_age, Area), values_from = total) %>% 
     select(-c(NA_rural, NA_urban)) %>% 
     replace(is.na(.), 0) %>% 
-    mutate(All_Ages = sum(c(`15-19_rural`, `15-19_urban`, `20-24_rural`, `20-24_urban`, `25-29_rural`, `25-29_urban`)),
+    mutate(All_urban = sum(c(`15-19_urban`, `20-24_urban`, `25-29_urban`)),
+           All_rural = sum(c(`15-19_rural`, `20-24_rural`, `25-29_rural`)),
+           All_Ages = sum(c(`15-19_rural`, `15-19_urban`, `20-24_rural`, `20-24_urban`, `25-29_rural`, `25-29_urban`)),
            "15-19_All" = sum(c(`15-19_rural`, `15-19_urban`)),
            "20-24_All" = sum(c(`20-24_rural`, `20-24_urban`)),
            "25-29_All" = sum(c(`25-29_rural`, `25-29_urban`))) %>% 
-    pivot_longer(cols = c(2:11),
+    pivot_longer(cols = c(10:13),
                  names_to = "bucket_age",
-                 values_to = "Counts") 
+                 values_to = "Counts") %>% 
+    pivot_longer(cols = c(2:9),
+                 names_to = "urban_rural",
+                 values_to = "Counts2")
   
   # merge UnACoRN data with geometry
   data3 <- 
-    merge(mapfile2, data2, by = 'PT2')
+    merge(mapfile2, data2, by = 'PT2') 
   
   # now just need to set up the function parameters and inputs... 
   
+  if (select_urbrural == "Both") {
+    
+    data4 <- 
+      data3 %>% 
+      filter(bucket_age %in% agegroup) 
+    
+    tm_shape(data4) +
+      tm_polygons("Counts",
+                  id = "PRENAME",
+                  palette = "YlGn",
+                  legend.show = TRUE,
+                  title = "Number of Respondents") +
+      tm_view(set.zoom.limits = c(3, 10))
+    
+  } else {
   
-  tm_shape(data3) +
-    tm_polygons("PT2",
-                id = "PRENAME",
-                palette = "PRGn",
-                legend.show = FALSE)
+    data4 <- 
+      data3 %>% 
+      filter(bucket_age %in% agegroup) %>% 
+      filter(grepl(select_urbrural, urban_rural))
+    
+    tm_shape(data4) +
+      tm_polygons("Counts2",
+                  id = "PRENAME",
+                  palette = "YlGn",
+                  legend.show = TRUE,
+                  title = "Respondents") +
+      tm_view(set.zoom.limits = c(3, 10))
+  }
   
 }
 
