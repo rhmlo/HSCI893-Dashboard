@@ -31,7 +31,7 @@ RI_plot <-
 Geo_Sidebar <- 
   sidebarPanel(
     width = 3,
-    tags$em("This page may take a few seconds to load."),
+    tags$em("This page may take a few seconds to load. To show the exact number of respondents, click on each province."),
     br(),
     hr(), 
     h4("Options"),
@@ -44,7 +44,7 @@ Geo_Sidebar <-
                   "20-24 yrs" = "20-24_All",
                   "25-29 yrs" = "25-29_All"),
       multiple = FALSE,
-      selected = c("15-19 yrs" = "15-19_All")),
+      selected = c("All ages" = "All_Ages")),
     # selector for rural, urban, or both
     radioButtons("urbanrural", 
                  label = tags$b("Select geography"),
