@@ -72,7 +72,8 @@ geo_map <- function(data, agegroup, select_urbrural) {
                   palette = "YlGn",
                   legend.show = TRUE,
                   title = "Respondents") +
-      tm_view(set.zoom.limits = c(3, 10))
+      tm_view(set.zoom.limits = c(3, 10)) +
+      tm_layout(title = "Number of UnACoRN 1.0 Respondents in Canada, by Age Group and Geography")
   }
   
 }

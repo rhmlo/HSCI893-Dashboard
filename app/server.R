@@ -14,4 +14,7 @@ server <- function(input, output, session) {
   output$geoMap <- renderTmap({
     geo_map(Usable_data, agegroup = input$select_agegroup_geo, select_urbrural = input$urbanrural)})
   
+  output$sankey_gender_sex <- renderHighchart(
+    gender_sexuality_sankey(sankey_data, gender_or_sex = input$gender_sexuality))
+  
 }

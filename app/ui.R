@@ -64,6 +64,33 @@ Geo_plot <-
       tags$li(tags$em("Legend scales"), " - This is an example interactive graph with two options for specificity. More troubleshooting is required to manually specify the legend scales in the mapping function, which curently sometimes include 0 as a separate category. This is probably due to having double options and slicing the data into 4 age groups + 3 geographies = 12 subgroups of data."))
   )
 
+## Sankey
+### sankey sidebar
+Sankey_Sidebar <- 
+  sidebarPanel(
+    width = 3,
+    tags$em("Hover over each line or option in this sankey diagram to look at the specific counts in each flow and group."),
+    br(),
+    hr(), 
+    h4("Options"),
+    # selector for gender or sexuality
+    radioButtons("gender_sexuality", 
+                 label = "",
+                 choices = c("Gender Identity" = "gender",
+                             "Sexual Orientation" = "sexuality"),
+                 selected = c("Gender Identity" = "gender"))
+    )
+
+### sankey plot
+Sankey_plot <- 
+  mainPanel(
+    highchartOutput("sankey_gender_sex", height = "700px"),
+    hr(),
+    tags$b("Notes about data for this graph:"),
+    tags$ul(
+      tags$li(tags$em("Mutually Exclusive Variables"), " - Sankey graphs require mutually exclusive variables, which is why the 'Multiple' identity was created for both gender identity and sexual orientation options. This graph may be difficult to use for UnACoRN data, since many response options are not mutually exclusive.")))
+
+
 # UI ------------- 
 
 navbarPage(
@@ -81,14 +108,22 @@ navbarPage(
                tabPanel("Racial Identity", 
                         br(),
                         sidebarLayout(RI_Sidebar, RI_plot)
-                        ),
+               ),
                    
-                   # Urban/Rural
+               # Urban/Rural
                tabPanel("Geography",
                         br(),
                         sidebarLayout(Geo_Sidebar, Geo_plot)
+               ),
+               
+               # Sankey
+               tabPanel("Sexuality/Gender Identity",
+                        br(),
+                        sidebarLayout(Sankey_Sidebar, Sankey_plot)
                )
-             ))),
+             )
+           )
+  ),
            
   tabPanel(title = "Navbar2",
            "content 2"),
