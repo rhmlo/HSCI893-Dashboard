@@ -21,7 +21,8 @@ Usable_data <-
 sankey_data <- 
   readRDS("data/sankey_data.RDS")
 
-mapfile <- simplify_shape(PROV) 
+mapfile2 <- readRDS("data/mapfile2.rds")
+data3 <- readRDS("data/data3.rds")
 
 tmap_mode("view")
 
