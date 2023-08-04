@@ -125,9 +125,6 @@ navbarPage(
            )
   ),
            
-  tabPanel(title = "Navbar2",
-           "content 2"),
-  
-  tabPanel(title = "Navbar3",
-           "content 3")
+  tabPanel(title = "Thesis Results",
+           "content 2")
 )
