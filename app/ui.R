@@ -126,5 +126,5 @@ navbarPage(
   ),
            
   tabPanel(title = "Thesis Results",
-           "content 2")
+           "Content to be added soon!")
 )
